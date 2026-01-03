@@ -103,26 +103,49 @@
 
         .logo-link:hover .logo-img { border-color: #ffd700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
 
-        /* --- 右下角二维码区域 --- */
-        .qr-fixed-box {
+        /* --- 左右两侧挂件通用样式 --- */
+        .side-box {
             position: fixed;
-            right: 30px;
             bottom: 30px;
             z-index: 100;
             text-align: center;
-            animation: elasticFlyRight 1s ease-out both 0.8s;
         }
 
-        .qr-img {
+        .side-img {
             width: 120px;
             height: 120px;
             padding: 5px;
             background: #fff;
-            border: 3px solid #40daf5; /* 边框改为 #40daf5 */
+            border: 3px solid #40daf5;
             border-radius: 10px;
-            /* 快速发光动画：0.8秒循环 */
             animation: fastGlow 0.8s ease-in-out infinite alternate;
             transition: transform 0.3s ease;
+            display: block;
+        }
+
+        .side-box:hover .side-img { transform: scale(1.1); }
+
+        .side-text {
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #40daf5;
+            text-shadow: 0 0 8px rgba(64, 218, 245, 0.6);
+            display: block;
+            letter-spacing: 2px;
+        }
+
+        /* 左侧下载 */
+        .download-left {
+            left: 30px;
+            animation: elasticFlyLeft 1s ease-out both 0.8s;
+            text-decoration: none;
+        }
+
+        /* 右侧二维码 */
+        .qr-right {
+            right: 30px;
+            animation: elasticFlyRight 1s ease-out both 0.8s;
         }
 
         @keyframes fastGlow {
@@ -130,29 +153,16 @@
             to { box-shadow: 0 0 25px #40daf5, 0 0 10px rgba(64, 218, 245, 0.5); }
         }
 
-        .qr-fixed-box:hover .qr-img {
-            transform: scale(1.1);
-        }
-
-        /* 静态文字效果：颜色改为 #40daf5 */
-        .qr-text-lively {
-            margin-top: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #40daf5; /* 字体颜色改为 #40daf5 */
-            text-shadow: 0 0 8px rgba(64, 218, 245, 0.6);
-            display: block;
-            letter-spacing: 2px;
-        }
-
         /* 响应式适配 */
         @media (max-width: 768px) {
             .brand-name { font-size: 3rem; }
             .container { gap: 20px; }
             .logo-img { width: 220px; height: 130px; }
-            .qr-img { width: 90px; height: 90px; }
-            .qr-fixed-box { right: 15px; bottom: 15px; }
-            .qr-text-lively { font-size: 12px; }
+            .side-img { width: 90px; height: 90px; }
+            .side-box { bottom: 15px; }
+            .download-left { left: 15px; }
+            .qr-right { right: 15px; }
+            .side-text { font-size: 12px; }
         }
     </style>
 </head>
@@ -181,9 +191,14 @@
         </a>
     </div>
 
-    <div class="qr-fixed-box">
-        <img src="二维码.jpg" alt="QR Code" class="qr-img">
-        <span class="qr-text-lively">手机版网站扫码</span>
+    <a href="你的下载链接.html" class="side-box download-left">
+        <img src="app_download.jpg" alt="Download APP" class="side-img">
+        <span class="side-text">下载APP</span>
+    </a>
+
+    <div class="side-box qr-right">
+        <img src="二维码.jpg" alt="QR Code" class="side-img">
+        <span class="side-text">手机扫描</span>
     </div>
 
     <script>
@@ -220,5 +235,3 @@
     </script>
 </body>
 </html>
-
-
