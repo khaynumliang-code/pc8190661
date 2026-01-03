@@ -103,7 +103,7 @@
 
         .logo-link:hover .logo-img { border-color: #ffd700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
 
-        /* --- 右下角二维码 --- */
+        /* --- 右下角二维码区域 --- */
         .qr-fixed-box {
             position: fixed;
             right: 30px;
@@ -112,30 +112,35 @@
             text-align: center;
             animation: elasticFlyRight 1s ease-out both 0.8s;
         }
+
         .qr-img {
             width: 120px;
             height: 120px;
             padding: 5px;
             background: #fff;
-            /* 修改边框颜色为深蓝色，更贴合二维码图片色调 */
-            border: 3px solid #1a4a9e; 
+            border: 3px solid #40daf5; /* 边框改为 #40daf5 */
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-        }
-        .qr-fixed-box:hover .qr-img {
-            transform: scale(1.1);
-            border-color: #2b70e4;
+            /* 快速发光动画：0.8秒循环 */
+            animation: fastGlow 0.8s ease-in-out infinite alternate;
+            transition: transform 0.3s ease;
         }
 
-        /* 静态文字效果：颜色调整为深蓝色 */
+        @keyframes fastGlow {
+            from { box-shadow: 0 0 5px #40daf5; }
+            to { box-shadow: 0 0 25px #40daf5, 0 0 10px rgba(64, 218, 245, 0.5); }
+        }
+
+        .qr-fixed-box:hover .qr-img {
+            transform: scale(1.1);
+        }
+
+        /* 静态文字效果：颜色改为 #40daf5 */
         .qr-text-lively {
             margin-top: 8px;
             font-size: 16px;
             font-weight: bold;
-            /* 此处的颜色 #1a4a9e 是典型的二维码深蓝色 */
-            color: #1a4a9e; 
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            color: #40daf5; /* 字体颜色改为 #40daf5 */
+            text-shadow: 0 0 8px rgba(64, 218, 245, 0.6);
             display: block;
             letter-spacing: 2px;
         }
