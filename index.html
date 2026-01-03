@@ -103,15 +103,52 @@
 
         .logo-link:hover .logo-img { border-color: #ffd700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
 
-        /* --- 左右两侧挂件通用样式 --- */
-        .side-box {
-            position: fixed;
-            bottom: 30px;
-            z-index: 100;
-            text-align: center;
+        /* --- 左右挂件基础样式 --- */
+        .side-box { position: fixed; bottom: 30px; z-index: 100; text-align: center; }
+
+        /* 快速发光动画定义 */
+        @keyframes fastGlow {
+            from { box-shadow: 0 0 5px #40daf5; }
+            to { box-shadow: 0 0 25px #40daf5, 0 0 10px rgba(64, 218, 245, 0.5); }
         }
 
-        .side-img {
+        /* 左侧下载按钮 (无图片版) */
+        .download-btn-box {
+            left: 30px;
+            animation: elasticFlyLeft 1s ease-out both 0.8s;
+            text-decoration: none;
+        }
+
+        .btn-style {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            border: 3px solid #40daf5;
+            border-radius: 15px;
+            animation: fastGlow 0.8s ease-in-out infinite alternate;
+            transition: all 0.3s ease;
+        }
+
+        .btn-style span {
+            color: #40daf5;
+            font-size: 20px;
+            font-weight: 900;
+            line-height: 1.2;
+            text-shadow: 0 0 10px rgba(64, 218, 245, 0.8);
+        }
+
+        .download-btn-box:hover .btn-style { transform: scale(1.1); background: rgba(64, 218, 245, 0.1); }
+
+        /* 右侧二维码挂件 */
+        .qr-right-box {
+            right: 30px;
+            animation: elasticFlyRight 1s ease-out both 0.8s;
+        }
+
+        .qr-img-style {
             width: 120px;
             height: 120px;
             padding: 5px;
@@ -120,37 +157,19 @@
             border-radius: 10px;
             animation: fastGlow 0.8s ease-in-out infinite alternate;
             transition: transform 0.3s ease;
-            display: block;
         }
 
-        .side-box:hover .side-img { transform: scale(1.1); }
+        .qr-right-box:hover .qr-img-style { transform: scale(1.1); }
 
-        .side-text {
-            margin-top: 8px;
+        /* 底部文字通用样式 */
+        .side-label {
+            margin-top: 10px;
             font-size: 16px;
             font-weight: bold;
             color: #40daf5;
             text-shadow: 0 0 8px rgba(64, 218, 245, 0.6);
             display: block;
-            letter-spacing: 2px;
-        }
-
-        /* 左侧下载 */
-        .download-left {
-            left: 30px;
-            animation: elasticFlyLeft 1s ease-out both 0.8s;
-            text-decoration: none;
-        }
-
-        /* 右侧二维码 */
-        .qr-right {
-            right: 30px;
-            animation: elasticFlyRight 1s ease-out both 0.8s;
-        }
-
-        @keyframes fastGlow {
-            from { box-shadow: 0 0 5px #40daf5; }
-            to { box-shadow: 0 0 25px #40daf5, 0 0 10px rgba(64, 218, 245, 0.5); }
+            letter-spacing: 1px;
         }
 
         /* 响应式适配 */
@@ -158,11 +177,12 @@
             .brand-name { font-size: 3rem; }
             .container { gap: 20px; }
             .logo-img { width: 220px; height: 130px; }
-            .side-img { width: 90px; height: 90px; }
+            .btn-style, .qr-img-style { width: 90px; height: 90px; }
+            .btn-style span { font-size: 16px; }
             .side-box { bottom: 15px; }
-            .download-left { left: 15px; }
-            .qr-right { right: 15px; }
-            .side-text { font-size: 12px; }
+            .download-btn-box { left: 15px; }
+            .qr-right-box { right: 15px; }
+            .side-label { font-size: 12px; }
         }
     </style>
 </head>
@@ -191,14 +211,16 @@
         </a>
     </div>
 
-    <a href="你的下载链接.html" class="side-box download-left">
-        <img src="app_download.jpg" alt="Download APP" class="side-img">
-        <span class="side-text">下载APP</span>
+    <a href="你的下载地址.html" class="side-box download-btn-box">
+        <div class="btn-style">
+            <span>下 载<br>APP</span>
+        </div>
+        <span class="side-label">官方下载</span>
     </a>
 
-    <div class="side-box qr-right">
-        <img src="二维码.jpg" alt="QR Code" class="side-img">
-        <span class="side-text">手机扫描</span>
+    <div class="side-box qr-right-box">
+        <img src="二维码.jpg" alt="QR Code" class="qr-img-style">
+        <span class="side-label">手机扫描</span>
     </div>
 
     <script>
