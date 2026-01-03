@@ -2,153 +2,109 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>新金宝</title>
-    <link rel="icon" type="image/jpeg" href="my_photo.jpg">
     <style>
         /* --- 基础布局 --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            font-family: 'PingFang SC', 'Microsoft YaHei', 'Pyidaungsu', sans-serif; color: white;
-            background: #000; 
-            overflow: hidden; position: relative;
-            -webkit-user-drag: none;
-            -webkit-user-select: none;
-            user-select: none;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; color: white;
+            background: #000; overflow: hidden; position: relative;
+            -webkit-user-select: none; user-select: none;
         }
 
-        /* --- 背景图片 --- */
+        /* 背景图适配手机 */
         .background-image {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('bg.jpg') no-repeat center center;
-            background-size: cover;
-            z-index: -1;
-            filter: brightness(0.4); 
+            background-size: cover; z-index: -1; filter: brightness(0.4); 
         }
 
         #snow-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
         
-        /* 灯带 */
-        .lightrope { position: absolute; top: 0; width: 100%; display: flex; justify-content: space-around; pointer-events: none; z-index: 20; list-style: none; }
-        .lightrope li { width: 12px; height: 25px; border-radius: 50%; margin: 10px; animation: flash 1.5s infinite; }
-        .lightrope li:nth-child(odd) { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
-        .lightrope li:nth-child(even) { background: #00ff00; box-shadow: 0 0 15px #00ff00; animation-delay: 0.5s; }
+        /* 灯带 - 手机端会自动均匀分布 */
+        .lightrope { position: absolute; top: 0; width: 100%; display: flex; justify-content: space-around; list-style: none; z-index: 20; }
+        .lightrope li { width: 8px; height: 18px; border-radius: 50%; animation: flash 1.5s infinite; }
+        .lightrope li:nth-child(odd) { background: #ff0000; box-shadow: 0 0 10px #ff0000; }
+        .lightrope li:nth-child(even) { background: #00ff00; box-shadow: 0 0 10px #00ff00; animation-delay: 0.5s; }
         @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* 金色文字效果 */
-        .golden-active {
-            background: linear-gradient(to right, #bf953f 0%, #fcf6ba 20%, #b38728 40%, #fbf5b7 60%, #bf953f 80%, #fcf6ba 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            font-weight: 900; 
-            display: inline-block;
-            animation: shine 2.5s linear infinite, livelyPulse 2s ease-in-out infinite;
+        /* 金色标题 */
+        .brand-name { 
+            font-size: 4rem; letter-spacing: 10px; font-weight: 900;
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fcf6ba, #bf953f);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: elasticDrop 1s ease-out both;
         }
 
-        @keyframes shine { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
-        @keyframes livelyPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
-        /* 入场动画 */
-        @keyframes elasticDrop { 0% { opacity: 0; transform: translateY(-500px); } 100% { opacity: 1; transform: translateY(0); } }
-        @keyframes elasticFlyLeft { 0% { opacity: 0; transform: translateX(-300px); } 100% { opacity: 1; transform: translateX(0); } }
-        @keyframes elasticFlyRight { 0% { opacity: 0; transform: translateX(300px); } 100% { opacity: 1; transform: translateX(0); } }
-        @keyframes elasticFlyUp { 0% { opacity: 0; transform: translateY(300px); } 100% { opacity: 1; transform: translateY(0); } }
-
-        .header-group { text-align: center; margin-top: -80px; margin-bottom: 50px; position: relative; z-index: 10; }
-        .brand-name { font-size: 4.5rem; letter-spacing: 10px; display: block; margin-bottom: 10px; }
-        h1 { font-size: 2rem; letter-spacing: 5px; }
-        
-        .container { display: flex; gap: 40px; justify-content: center; align-items: center; position: relative; z-index: 10; flex-wrap: wrap; }
-        .logo-link { text-decoration: none; display: flex; flex-direction: column; align-items: center; transition: all 0.4s ease; position: relative; }
-        .logo-link:hover { transform: scale(1.1); z-index: 50; }
-        .logo-img { width: 280px; height: 160px; object-fit: cover; display: block; border-radius: 15px; border: 3px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .logo-link:hover .logo-img { border-color: #ffd700; box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
-
-        /* --- 左右挂件 --- */
-        .side-box { position: fixed; bottom: 35px; z-index: 100; text-align: center; }
-
-        /* 左侧下载：无发光，带下划线 */
-        .download-left {
-            left: 50px;
-            animation: elasticFlyLeft 1s ease-out both 0.8s;
-            text-decoration: none;
-            display: inline-block;
+        /* 按钮容器：手机端自动变成一列或缩放 */
+        .container { 
+            display: flex; gap: 30px; justify-content: center; align-items: center; 
+            z-index: 10; flex-wrap: wrap; padding: 20px;
         }
-        .download-text {
-            font-size: 28px;
-            font-weight: 900;
-            color: #40daf5; /* 您指定的颜色 */
-            letter-spacing: 2px;
-            display: block;
-            margin-bottom: 5px;
-        }
-        /* 文字下方的行/横线 */
-        .text-line {
-            width: 100%;
-            height: 3px;
-            background-color: #40daf5;
-            display: block;
-            border-radius: 2px;
+        .logo-img { 
+            width: 260px; height: 150px; object-fit: cover; border-radius: 15px; 
+            border: 3px solid rgba(255, 255, 255, 0.5); transition: 0.3s;
         }
 
-        /* 右侧二维码：保留快速发光 */
-        .qr-right-box {
-            right: 30px;
-            animation: elasticFlyRight 1s ease-out both 0.8s;
+        /* --- 左右挂件系统 --- */
+        .side-box { position: fixed; bottom: 30px; z-index: 100; text-align: center; }
+
+        /* 左侧下载：文字 + 行 */
+        .download-left { left: 40px; text-decoration: none; animation: elasticFlyLeft 1s ease-out both 0.8s; }
+        .download-text { font-size: 24px; font-weight: 900; color: #40daf5; display: block; margin-bottom: 4px; }
+        .text-line { width: 100%; height: 3px; background: #40daf5; border-radius: 2px; }
+
+        /* 右侧二维码：发光 */
+        .qr-right { right: 40px; animation: elasticFlyRight 1s ease-out both 0.8s; }
+        .qr-img { 
+            width: 110px; height: 110px; background: #fff; padding: 5px;
+            border: 3px solid #40daf5; border-radius: 10px;
+            animation: fastGlow 0.8s ease-in-out infinite alternate;
         }
-        .qr-img-style {
-            width: 120px;
-            height: 120px;
-            padding: 5px;
-            background: #fff;
-            border: 3px solid #40daf5;
-            border-radius: 10px;
-            animation: boxFastGlow 0.8s ease-in-out infinite alternate;
-        }
-        @keyframes boxFastGlow {
+        .side-label { margin-top: 8px; font-size: 14px; color: #40daf5; font-weight: bold; display: block; }
+
+        @keyframes fastGlow {
             from { box-shadow: 0 0 5px #40daf5; }
-            to { box-shadow: 0 0 25px #40daf5, 0 0 10px rgba(64, 218, 245, 0.5); }
+            to { box-shadow: 0 0 20px #40daf5; }
         }
 
-        .side-label { margin-top: 10px; font-size: 16px; font-weight: bold; color: #40daf5; display: block; }
-
-        /* 响应式 */
+        /* --- 手机端适配关键代码 --- */
         @media (max-width: 768px) {
-            .brand-name { font-size: 3rem; }
-            .logo-img { width: 220px; height: 130px; }
-            .download-text { font-size: 18px; }
-            .qr-img-style { width: 90px; height: 90px; }
+            .brand-name { font-size: 2.5rem; letter-spacing: 5px; }
+            .container { gap: 15px; }
+            .logo-img { width: 180px; height: 110px; }
+            
+            /* 手机端挂件缩小并靠边，防止遮挡中间 */
             .side-box { bottom: 20px; }
-            .download-left { left: 20px; }
-            .qr-right-box { right: 20px; }
+            .download-left { left: 15px; }
+            .qr-right { right: 15px; }
+            
+            .download-text { font-size: 16px; }
+            .qr-img { width: 75px; height: 75px; }
+            .side-label { font-size: 11px; }
         }
+
+        @keyframes elasticDrop { 0% { opacity: 0; transform: translateY(-100px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes elasticFlyLeft { 0% { opacity: 0; transform: translateX(-100px); } 100% { opacity: 1; transform: translateX(0); } }
+        @keyframes elasticFlyRight { 0% { opacity: 0; transform: translateX(100px); } 100% { opacity: 1; transform: translateX(0); } }
     </style>
 </head>
-<body oncontextmenu="return false;" ondragstart="return false;">
+<body>
     <div class="background-image"></div>
-    <ul class="lightrope"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+    <ul class="lightrope"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
     <canvas id="snow-canvas"></canvas>
 
-    <div class="header-group">
-        <div class="brand-name golden-active" style="animation: elasticDrop 1s ease-out both;">新金宝</div>
-        <h1 class="golden-active" style="animation: elasticDrop 1s ease-out both 0.2s;">欢迎您</h1>
+    <div style="text-align: center; z-index: 10; margin-bottom: 30px;">
+        <div class="brand-name">新金宝</div>
     </div>
 
     <div class="container">
-        <a href="https://pc.870213011.com/" class="logo-link" style="animation: elasticFlyLeft 1s ease-out both 0.4s;">
-            <img src="myphoto1.jpg" alt="Member" class="logo-img">
-        </a>
-        <a href="login2.html" class="logo-link" style="animation: elasticFlyUp 1s ease-out both 0.5s;">
-            <img src="myphoto2.jpg" alt="Other" class="logo-img">
-        </a>
-        <a href="https://www.870213011.xyz/?_login_0.SXLg" class="logo-link" style="animation: elasticFlyRight 1s ease-out both 0.6s;">
-            <img src="myphoto.jpg" alt="Agent" class="logo-img">
-        </a>
+        <a href="https://pc.870213011.com/"><img src="myphoto1.jpg" class="logo-img"></a>
+        <a href="login2.html"><img src="myphoto2.jpg" class="logo-img"></a>
+        <a href="https://www.870213011.xyz/?_login_0.SXLg"><img src="myphoto.jpg" class="logo-img"></a>
     </div>
 
     <a href="你的下载地址.html" class="side-box download-left">
@@ -156,8 +112,8 @@
         <div class="text-line"></div>
     </a>
 
-    <div class="side-box qr-right-box">
-        <img src="二维码.jpg" alt="QR Code" class="qr-img-style">
+    <div class="side-box qr-right">
+        <img src="二维码.jpg" class="qr-img">
         <span class="side-label">手机扫描</span>
     </div>
 
@@ -169,13 +125,13 @@
             width = window.innerWidth; height = window.innerHeight;
             canvas.width = width; canvas.height = height;
             particles = [];
-            for (let i = 0; i < 100; i++) {
-                particles.push({ x: Math.random() * width, y: Math.random() * height, r: Math.random() * 3 + 1, v: Math.random() * 1.5 + 0.5 });
+            for (let i = 0; i < 60; i++) {
+                particles.push({ x: Math.random() * width, y: Math.random() * height, r: Math.random() * 2 + 1, v: Math.random() * 1 + 0.5 });
             }
         }
         function draw() {
             ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
             ctx.beginPath();
             for (let i = 0; i < particles.length; i++) {
                 let p = particles[i]; ctx.moveTo(p.x, p.y); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
@@ -185,11 +141,13 @@
         function update() {
             for (let i = 0; i < particles.length; i++) {
                 let p = particles[i]; p.y += p.v;
-                if (p.y > height) { particles[i] = { x: Math.random() * width, y: -10, r: p.r, v: p.v }; }
+                if (p.y > height) particles[i].y = -10;
             }
         }
-        window.addEventListener('resize', init); init();
-        function anim() { draw(); requestAnimationFrame(anim); } anim();
+        window.addEventListener('resize', init);
+        init();
+        function anim() { draw(); requestAnimationFrame(anim); }
+        anim();
     </script>
 </body>
 </html>
