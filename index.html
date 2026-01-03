@@ -117,24 +117,25 @@
             height: 120px;
             padding: 5px;
             background: #fff;
-            border: 3px solid #007bff; /* 二维码蓝色边框 */
+            /* 修改边框颜色为深蓝色，更贴合二维码图片色调 */
+            border: 3px solid #1a4a9e; 
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,123,255,0.3);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
         }
         .qr-fixed-box:hover .qr-img {
             transform: scale(1.1);
-            border-color: #00d4ff; /* 鼠标滑过时变亮蓝色 */
-            box-shadow: 0 0 20px rgba(0,212,255,0.6);
+            border-color: #2b70e4;
         }
 
-        /* 静态蓝色字体 */
+        /* 静态文字效果：颜色调整为深蓝色 */
         .qr-text-lively {
             margin-top: 8px;
             font-size: 16px;
             font-weight: bold;
-            color: #007bff; /* 字体设为蓝色 */
-            text-shadow: 0 0 5px rgba(0,123,255,0.5);
+            /* 此处的颜色 #1a4a9e 是典型的二维码深蓝色 */
+            color: #1a4a9e; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             display: block;
             letter-spacing: 2px;
         }
